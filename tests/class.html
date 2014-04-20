@@ -1,0 +1,106 @@
+<link rel="stylesheet" type="text/css" href="jasmine/jasmine-2.0.0/jasmine.css">
+
+<script type="text/javascript" src="jasmine/jasmine-2.0.0/jasmine.js"></script>
+<script type="text/javascript" src="jasmine/jasmine-2.0.0/jasmine-html.js"></script>
+<script type="text/javascript" src="jasmine/jasmine-2.0.0/boot.js"></script>
+
+
+<script src="../lib/core/Mt.js"></script>
+<script src="../lib/Collection.js"></script>
+<script src="../lib/Class.js"></script>
+<script src="../lib/Observable.js"></script>
+
+<script>
+describe("Classes", function(){
+	describe("Declare class Car", function(){
+		Mt.Class('Car', {
+			constructor: function(){
+				//console.log('Car constructor');
+			},
+			name: 'Car',
+			setMinKm: function(km){
+				this.kms = km;
+			},
+			getName: function(){
+				return this.name;
+			}
+		});
+		it("Check Car prototype", function(){
+			expect(Car.prototype.name).toBe('Car');
+		});
+	});
+
+	describe("Declare class AverageCar that extend from Car", function(){
+		Mt.Class('AverageCar', {
+			extend: Car,
+			name: 'AverageCar',
+			constructor: function(){
+				//console.log('AverageCar constructor');
+				this.Super('constructor', arguments);
+			},
+			setMinKm: function(km){
+				this.kms = km + 20;
+				this.Super('setMinKm', [this.kms]);
+			}
+		});
+		it("Check AverageCar prototype", function(){
+			expect(AverageCar.prototype.name).toBe('AverageCar');
+			expect(AverageCar.prototype.extend).toBe(undefined);
+		});
+	});
+
+	describe("Declare class SuperCar that extend from AverageCar", function(){
+		Mt.Class('SuperCar', {
+			extend: AverageCar,
+			name: 'SuperCar',
+			constructor: function(){
+				this.Super('constructor', arguments);
+			},
+			setMinKm: function(km){
+				this.kms = km + 30;
+				this.Super('setMinKm', [this.kms]);
+			}
+		});
+		it("Check SuperCar prototype", function(){
+			expect(SuperCar.prototype.name).toBe('SuperCar');
+			expect(SuperCar.prototype.extend).toBe(undefined);
+		});
+	});
+	
+	describe("Init Car class", function(){
+		var с = new Car();
+		
+		it("Check name of Car", function(){
+			expect(с.getName()).toBe('Car');
+		});
+		it("Check method run of Car", function(){
+			с.setMinKm(30);
+			expect(с.kms).toEqual(30);
+		});
+	});
+	
+	describe("Init AverageCar class", function(){
+		var с = new AverageCar();
+		
+		it("Check name of AverageCar", function(){
+			expect(с.getName()).toBe('AverageCar');
+		});
+		it("Check method run of AverageCar", function(){
+			с.setMinKm(30);
+			expect(с.kms).toEqual(50);
+		});
+	});
+
+	describe("Init SuperCar class", function(){
+		var s = new SuperCar();
+		
+		it("Check name of SuperCar", function(){
+			expect(s.getName()).toBe('SuperCar');
+		});
+		it("Check method run of SuperCar", function(){
+			s.setMinKm(30);
+			expect(s.kms).toEqual(80);
+		});
+	});
+});
+</script>

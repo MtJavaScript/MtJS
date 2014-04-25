@@ -1,5 +1,3 @@
-"use strict";
-
 Mt.Collection = function(arr){
 	var me = this;
 	

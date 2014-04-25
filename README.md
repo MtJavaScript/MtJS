@@ -3,6 +3,18 @@ MtJS
 
 Mt JS - RIA javascript library
 
+#Include
+
+##Debug version
+``` html
+<script src="build/mt.js"></script>
+```
+##Min version
+``` html
+<script src="build/mt-min.js"></script>
+```
+
+
 Class
 ------------------
 

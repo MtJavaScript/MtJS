@@ -1,5 +1,3 @@
-"use strict";
-
 Mt.Class('Mt.Observable', {
 	constructor: function(){
 		var me = this;

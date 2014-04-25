@@ -2,9 +2,9 @@ MtJS
 ====
 
 Mt JS - RIA javascript library  
-Version - 0.0.2  
-Debug version - 9 Kb  
-Min version - 5 Kb
+Version - **0.0.2**  
+Debug version - **9 Kb**  
+Min version - **5 Kb**
 
 #Include
 

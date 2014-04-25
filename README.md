@@ -20,21 +20,8 @@ Mt.Class('Car', {
 	}
 });
 
-Mt.Class('AverageCar', {
-	extend: Car,
-	name: 'AverageCar',
-	constructor: function(){
-		console.log('AverageCar constructor');
-		this.Super('constructor', arguments);
-	},
-	run: function(){
-		console.log('cool');
-		this.Super('run', arguments);
-	}
-});
-
 Mt.Class('SuperCar', {
-	extend: AverageCar,
+	extend: Car,
 	name: 'SuperCar',
 	constructor: function(){
 		console.log('SuperCar constructor');
@@ -81,36 +68,7 @@ Mt.Class('Car', {
 	}
 });
 
-Mt.Class('AverageCar', {
-	extend: Car,
-	name: 'AverageCar',
-	constructor: function(){
-		console.log('AverageCar constructor');
-		this.Super('constructor', arguments);
-	},
-	run: function(){
-		console.log('cool');
-		this.Super('run', arguments);
-	}
-});
-
-Mt.Class('SuperCar', {
-	extend: AverageCar,
-	name: 'SuperCar',
-	constructor: function(){
-		console.log('SuperCar constructor');
-		this.Super('constructor', arguments);
-	},
-	run: function(){
-		console.log('runnnnnn');
-		this.Super('run', arguments);
-	}
-});
-
 var s = new SuperCar();
-
-s.getName();
-s.run(70);
 
 s.once('run', function(){
 	console.log('once run');

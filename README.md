@@ -1,7 +1,8 @@
 MtJS
 ====
 
-Mt JS - RIA javascript library - version 0.0.2
+Mt JS - RIA javascript library  
+Version - 0.0.2
 
 #Include
 

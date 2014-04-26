@@ -102,7 +102,7 @@ setInterval(function(){
 	s.run();
 	numRun++
 	if(numRun === 5){
-		s.un('', runFn);
+		s.un('run', runFn);
 	}
 }, 2000);
 ```

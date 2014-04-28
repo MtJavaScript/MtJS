@@ -1,4 +1,4 @@
-MtJS
+MtJS [![Code Climate](https://codeclimate.com/github/MtJavaScript/MtJS.png)](https://codeclimate.com/github/MtJavaScript/MtJS) 
 ====
 
 Mt JS - RIA javascript library  

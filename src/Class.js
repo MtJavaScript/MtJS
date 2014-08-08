@@ -1,6 +1,7 @@
 (function(){
 
-var $classes = {};
+var $classes = {},
+	$types = {};
 
 var applyIf = function(Child, Parent){
 	for(var p in Parent.prototype){
@@ -8,7 +9,7 @@ var applyIf = function(Child, Parent){
 			Child.prototype[p] = Parent.prototype[p];
 		}
 	}
-}
+};
 
 var ClassManager = function(){};
 ClassManager.prototype = {
@@ -101,11 +102,34 @@ Mt.Class = function(name, config){
 	
 	$classes[name].prototype.$name = name;
 	
+	if(config.traits){
+		Mt.trait( $classes[name].prototype, config.traits );
+		delete $classes[name].prototype.traits;
+	}
+	
+	if(config.plugins !== undefined){
+		$classes[name].prototype._plugins = $classes[name].prototype._plugins.concat( overrides.plugins );
+		delete $classes[name].prototype.plugins;
+	}
+	
 	for(var p in config){
 		$classes[name].prototype[p] = config[p];
 	}
 	
 	Mt.ClassManager.add(name, $classes[name]);
+	
+	if(config.type){
+		$types[config.type] = $classes[name];
+	}
+	
+	if(config.type){
+		$types[config.type] = $classes[name];
+		Mt.addWidgetType(config.type, $classes[name]);
+	}
+};
+
+Mt.getClassByType = function(type){
+	return $types[type];
 };
 
 })();

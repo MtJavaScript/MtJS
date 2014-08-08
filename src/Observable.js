@@ -1,7 +1,6 @@
 Mt.Class('Mt.Observable', {
 	constructor: function(){
 		var me = this;
-		console.log('Mt.Observable');
 		
 		me.events = {};
 		

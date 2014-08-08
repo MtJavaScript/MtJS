@@ -58,7 +58,8 @@ Mt.typeOf = function(value){
 		return type;
 	}
 
-	var typeToString = toString.call(value);
+	var toString = Object.prototype.toString,
+		typeToString = toString.call(value);
 
 	switch(typeToString){
 		case '[object Array]':
@@ -82,6 +83,32 @@ Mt.typeOf = function(value){
 	}
 };
 
+Mt.isArray = ('isArray' in Array) ? Array.isArray : function(value){
+	var toString = Object.prototype.toString;
+	
+    return toString.call(value) === '[object Array]';
+};
+
+Mt.isObject = function(value){
+	var toString = Object.prototype.toString;
+	
+	return toString.call(value) === '[object Object]';
+};
+
+Mt.isFunction = function(value){
+	var toString = Object.prototype.toString;
+	
+    return toString.apply(value) === '[object Function]';
+};
+
+Mt.isString = function(value){
+    return typeof value === 'string';
+};
+
+Mt.isBoolean = function(value){
+    return typeof value === 'boolean';
+};
+
 Mt.each = function(arrayObject, fn){
 	var a = arrayObject,
 		type = Mt.typeOf(arrayObject);
@@ -102,5 +129,45 @@ Mt.each = function(arrayObject, fn){
 				fn(arrayObject[p], p, arrayObject);
 			}
 			break;
+	}
+};
+
+Mt.trait = function(proto, traits){
+	if( traits.classes ){
+		var i = 0,
+			classes = traits.classes,
+			length = classes.length;
+		
+		if( ZG.typeOf( traits.classes[0] ) === 'object' ){
+			for(;i<length;i++){
+				var item = classes[i],
+					_class = item._class,
+					methods = item.methods,
+					j = 0,
+					jL = methods.length;
+					
+				for(;j<jL;j++){
+					var methodName = methods[j];
+					proto[methodName] = _class['prototype'][methodName];
+				}
+			}
+		}
+		else{
+			for(;i<length;i++){
+				ZG.apply(proto, classes[i]['prototype']);
+			}
+		}
+	}
+
+	if( traits.methods ){
+		var i = 0,
+			methods = traits.methods,
+			length = methods.length,
+			methodObject;
+		
+		for(;i<length;i++){
+			methodObject = methods[i];
+			proto[methodObject.name] = methodObject.method;
+		}
 	}
 };

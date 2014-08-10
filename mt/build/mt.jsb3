@@ -1,0 +1,67 @@
+{
+    "projectName": "Mt JS - RIA javascript library",
+	"builds": [{
+		"name": "Mt JS",
+        "target": "mt.js",
+		"compress": false,
+		"files": [{
+			"path": "../src/core/",
+			"name": "Mt.js"
+		},{
+			"path": "../src/",
+			"name": "Collection.js"
+		},{
+			"path": "../src/",
+			"name": "Class.js"
+		},{
+			"path": "../src/data/",
+			"name": "Data.js"
+		},{
+			"path": "../src/",
+			"name": "PluginManager.js"
+		},{
+			"path": "../src/",
+			"name": "WidgetManager.js"
+		},{
+			"path": "../src/",
+			"name": "Observable.js"
+		},{
+			"path": "../src/",
+			"name": "TraitWidget.js"
+		
+		},{
+			"path": "../src/adapter/",
+			"name": "jquery.js"
+			
+		},{
+			"path": "../src/",
+			"name": "Model.js"
+		},{
+			"path": "../src/",
+			"name": "Store.js"
+			
+		},{
+			"path": "../src/widgets/button/",
+			"name": "Button.js"
+		},{
+			"path": "../src/widgets/field/",
+			"name": "Field.js"
+		},{
+			"path": "../src/widgets/panel/",
+			"name": "Panel.js"
+		},{
+			"path": "../src/widgets/textarea/",
+			"name": "TextArea.js"
+		
+		},{
+			"path": "../src/widgets/grid/",
+			"name": "Grid.js"
+		},{
+			"path": "../src/widgets/grid/elements/",
+			"name": "Body.js"
+		},{
+			"path": "../src/widgets/grid/elements/",
+			"name": "Header.js"
+		}]
+	}]
+}

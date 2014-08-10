@@ -1,0 +1,234 @@
+/* CSS crunched with Crunch - http://crunchapp.net/ */
+.mt body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0px;
+  padding: 0px;
+}
+.mt-button {
+  background-color: #5f83ad;
+  color: #ffffff;
+  text-align: center;
+  font-family: tahoma, arial, verdana, sans-serif, 'Lucida Sans';
+  line-height: 22px;
+  font-weight: bold;
+  -webkit-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: background-color 100ms linear, color 100ms linear;
+  -moz-transition: background-color 100ms linear, color 100ms linear;
+  -o-transition: background-color 100ms linear, color 100ms linear;
+  transition: background-color 100ms linear, color 100ms linear;
+  line-height: 13px;
+  font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+  font-size: 11px;
+  cursor: pointer;
+}
+.mt-button:hover {
+  background-color: #6d90b5;
+}
+.mt-button:active {
+  background: #5e80a5;
+  border-bottom-color: #51749c;
+}
+.mt-button-text {
+  padding-top: 7px;
+}
+.mt-field-label {
+  float: left;
+  color: #777;
+  font-size: 11px;
+  font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+  padding-top: 7px;
+}
+.mt-field-text {
+  float: left;
+  padding-left: 5px;
+}
+.mt-field-text-input {
+  padding: 5px;
+  background: #FFF;
+  color: #000;
+  border: 1px solid #C3CBD4;
+  margin-top: 2px;
+  font-family: Tahoma, Verdana, Arial, sans-serif, 'Lucida Sans';
+  font-size: 11px;
+}
+.mt-field-text-input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+}
+.mt-shadow {
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+.mt-panel {
+  /*
+	border: 1px solid rgb(211, 219, 225);
+	*/
+  overflow: hidden;
+  font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+  font-size: 11px;
+}
+.mt-panel-header {
+  background-color: #5B7FA6;
+  color: #FFFFFF;
+  height: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #597da3;
+  border: 1px solid #45688e;
+  border-color: #45688e;
+}
+.mt-panel-header-text {
+  font-weight: bold;
+  padding-left: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #648cb7;
+}
+.mt-panel-body {
+  background-color: #F7F7F7;
+  border: 1px solid #adbac7;
+  background-color: white;
+}
+.mt-textarea-label {
+  float: left;
+  color: #777;
+  font-size: 11px;
+  font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+  padding-top: 7px;
+}
+.mt-textarea-text {
+  float: left;
+  padding-left: 5px;
+}
+.mt-textarea-text-input {
+  padding: 5px;
+  background: #FFF;
+  color: #000;
+  border: 1px solid #C3CBD4;
+  margin-top: 2px;
+  font-family: Tahoma, Verdana, Arial, sans-serif, 'Lucida Sans';
+  font-size: 11px;
+  overflow: hidden;
+  resize: none;
+}
+.mt-textarea-text-input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+}
+.mt-grid {
+  border: 1px solid #d3dbe1;
+  overflow: hidden;
+  font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+  font-size: 11px;
+}
+.mt-grid table {
+  border-spacing: 0px;
+}
+.mt-grid-body {
+  font: normal 11px/16px tahoma, arial, sans-serif;
+}
+.mt-grid-body-td {
+  white-space: nowrap;
+  height: 32px;
+  width: 75px;
+  /*border-width: 0px 1px 1px 0px;*/
+  border-width: 0px;
+  border-color: #d3dbe1;
+  border-style: solid;
+  color: #2b587a;
+}
+.mt-grid-body-td-text {
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  padding-left: 9px;
+}
+.mt-grid-left-side {
+  float: left;
+  height: 100%;
+  width: 150px;
+  border-color: #d3dbe1;
+  border-style: solid;
+  border-width: 0px 2px 0px 0px;
+}
+.mt-grid-right-side {
+  float: left;
+  height: 100%;
+}
+.mt-grid-header {
+  height: 32px;
+  border-color: #d3dbe1;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  background-color: #e3e9ee;
+}
+.mt-grid-header-cell:first-child {
+  border-left-width: 0px;
+}
+.mt-grid-header-cell:last-child {
+  border-right-width: 0px;
+}
+.mt-grid-header-cell:first-child div {
+  border-left-width: 0px;
+}
+.mt-grid-header-cell:hover {
+  background-color: #eff2f5;
+}
+.mt-grid-header-cell {
+  float: left;
+  height: 32px;
+  background-color: #E3E9EE;
+  border-width: 0px 1px 0px 0px;
+  border-style: solid;
+  border-color: #d3dbe1;
+  color: #51677a;
+  overflow: hidden;
+}
+.mt-grid-header-cell-text {
+  overflow: hidden;
+  border-left: 1px solid #eff2f5;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  color: #51677a;
+  height: 100%;
+  font-weight: bold;
+  width: 300px;
+}
+.mt-grid-left-side {
+  overflow: hidden;
+}
+.mt-grid-row-even td {
+  background-color: #F0F2F4;
+}

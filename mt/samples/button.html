@@ -1,0 +1,41 @@
+<script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
+
+<link href="../build/mt-min.css" rel="stylesheet">
+
+<!-- Debug -->
+<script src="../build/load-all-js-files.js"></script>
+<!-- Release -->
+<!--<script src="../build/mt.js"></script>-->
+<!-- Release min -->
+<!--<script src="../build/mt-min.js"></script>-->
+
+<script>
+window.onload = function(){
+
+new Mt.Button({
+	text: 'Button',
+	listeners: [{
+		click: function(){
+		   console.log('click');
+		}
+	},{
+		mousedown: function(){
+		   console.log('mousedown');
+		}
+	},{
+		mouseup: function(){
+		   console.log('mouseup');
+		}
+	},{
+		mouseover: function(){
+		   console.log('mouseover');
+		}
+	},{
+		mouseout: function(){
+		   console.log('mouseout');
+		}
+	}]
+});
+
+};
+</script>

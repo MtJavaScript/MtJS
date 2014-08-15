@@ -1,6 +1,9 @@
 <script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
 
-<link href="../build/mt-min.css" rel="stylesheet">
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
 
 <!-- Debug -->
 <script src="../build/load-all-js-files.js"></script>
@@ -14,7 +17,7 @@ window.onload = function(){
 
 new Mt.Button({
 	text: 'Button',
-	listeners: [{
+	events: [{
 		click: function(){
 		   console.log('click');
 		}
@@ -33,6 +36,18 @@ new Mt.Button({
 	},{
 		mouseout: function(){
 		   console.log('mouseout');
+		}
+	},{
+		beforerender: function(){
+			console.log('beforerender');
+		}
+	},{
+		afterrender: function(){
+			console.log('afterrender');
+		}
+	},{
+		render: function(){
+			console.log('render');
 		}
 	}]
 });

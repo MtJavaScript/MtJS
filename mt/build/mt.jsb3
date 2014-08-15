@@ -8,38 +8,38 @@
 			"path": "../src/core/",
 			"name": "Mt.js"
 		},{
-			"path": "../src/",
+			"path": "../src/util/",
 			"name": "Collection.js"
 		},{
-			"path": "../src/",
+			"path": "../src/core/",
 			"name": "Class.js"
 		},{
 			"path": "../src/data/",
 			"name": "Data.js"
 		},{
-			"path": "../src/",
+			"path": "../src/widgets/",
 			"name": "PluginManager.js"
 		},{
-			"path": "../src/",
+			"path": "../src/widgets/",
 			"name": "WidgetManager.js"
 		},{
-			"path": "../src/",
-			"name": "Observable.js"
-		},{
-			"path": "../src/",
-			"name": "TraitWidget.js"
+			"path": "../src/util/",
+			"name": "Event.js"
 		
 		},{
 			"path": "../src/adapter/",
 			"name": "jquery.js"
 			
 		},{
-			"path": "../src/",
+			"path": "../src/data/",
 			"name": "Model.js"
 		},{
-			"path": "../src/",
+			"path": "../src/data/",
 			"name": "Store.js"
-			
+		
+		},{
+			"path": "../src/widgets/",
+			"name": "Widget.js"
 		},{
 			"path": "../src/widgets/button/",
 			"name": "Button.js"
@@ -52,6 +52,10 @@
 		},{
 			"path": "../src/widgets/textarea/",
 			"name": "TextArea.js"
+		
+		},{
+			"path": "../src/widgets/Form/",
+			"name": "Form.js"
 		
 		},{
 			"path": "../src/widgets/grid/",

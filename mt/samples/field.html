@@ -1,6 +1,9 @@
 <script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
 
-<link href="../build/mt-min.css" rel="stylesheet">
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
 
 <!-- Debug -->
 <script src="../build/load-all-js-files.js"></script>
@@ -14,8 +17,21 @@ window.onload = function(){
 
 new Mt.Field({
 	label: 'Name',
-	emptyText: 'Name'
-	//value: 'Ted'
+	emptyText: 'Name',
+	//value: 'Ted',
+	events: [{
+		beforerender: function(){
+			console.log('beforerender');
+		}
+	},{
+		afterrender: function(){
+			console.log('afterrender');
+		}
+	},{
+		render: function(){
+			console.log('render');
+		}
+	}]
 });
 
 };

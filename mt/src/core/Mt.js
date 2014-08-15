@@ -194,11 +194,11 @@ Mt.apply(Mt, {
 	idSeed: 0,
 	id: function(el, prefix){
 		if(!el){
-			return (prefix || Mt.prefix) + (++ZG.idSeed);
+			return (prefix || Mt.prefix) + (++Mt.idSeed);
 		}
 		el = el.dom || {};
 		if(!el.id){
-			el.id = (prefix || Mt.prefix) + (++ZG.idSeed);
+			el.id = (prefix || Mt.prefix) + (++Mt.idSeed);
 		}
 		return el.id;
 	}

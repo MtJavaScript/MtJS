@@ -3,23 +3,26 @@
 		pathToSrc = '../src/',
 		files = [
 			pathToSrc + 'core/Mt.js',
-			pathToSrc + 'Collection.js',
-			pathToSrc + 'Class.js',
+			pathToSrc + 'util/Collection.js',
+			pathToSrc + 'core/Class.js',
+			pathToSrc + 'core/TraitClass.js',
 			pathToSrc + 'data/Data.js',
-			pathToSrc + 'PluginManager.js',
-			pathToSrc + 'WidgetManager.js',
-			pathToSrc + 'Observable.js',
-			pathToSrc + 'TraitWidget.js',
+			pathToSrc + 'widgets/PluginManager.js',
+			pathToSrc + 'widgets/WidgetManager.js',
+			pathToSrc + 'util/Event.js',
 
 			pathToSrc + 'adapter/jquery.js',
 			
-			pathToSrc + 'Model.js',
-			pathToSrc + 'Store.js',
-			
+			pathToSrc + 'data/Model.js',
+			pathToSrc + 'data/Store.js',
+
+			pathToSrc + 'widgets/Widget.js',
 			pathToSrc + 'widgets/button/Button.js',
 			pathToSrc + 'widgets/field/Field.js',
 			pathToSrc + 'widgets/panel/Panel.js',
 			pathToSrc + 'widgets/textarea/TextArea.js',
+			
+			pathToSrc + 'widgets/form/Form.js',
 			
 			pathToSrc + 'widgets/grid/Grid.js',
 			pathToSrc + 'widgets/grid/elements/Body.js',

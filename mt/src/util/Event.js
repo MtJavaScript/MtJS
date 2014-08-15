@@ -1,18 +1,27 @@
 //"use strict";
-Mt.Class('Mt.Observable', {
+(function(){
+var seedFn = 0,
+	fns = {};
+
+Mt.Class(['Mt.Event', 'Mt.Observable'], {
+	traits: {
+		classes: [
+			Mt.TraitClass
+		]
+	},
 	constructor: function(config){
 		var me = this,
 			config = config || {};
 	
 		Mt.applyConfig(me, config);
 		
-		me.events = {};
-		if(me.listeners){
-			var listeners = me.listeners,
+		me.$events = {};
+		if(me.listeners || me.events){
+			var listeners = me.listeners || me.events,
 				i = 0,
-				length = listeners.length;
+				iL = listeners.length;
 			
-			for(;i<length;i++){
+			for(;i<iL;i++){
 				var lis = listeners[i],
 					eventName = null,
 					handler = null,
@@ -46,11 +55,16 @@ Mt.Class('Mt.Observable', {
 		}
 	},
 	on: function(eventName, fn, scope, params){
-		if( this.events[eventName] === undefined ){
+		if( this.$events[eventName] === undefined ){
 			console.log(arguments);
 			throw new Error('Event name is not set: ' + eventName);
 		}
-		this.events[eventName].push({
+		
+		fn.$mtFnSeed = seedFn;
+		fns[seedFn] = fn;
+		seedFn++;
+		
+		this.$events[eventName].push({
 			fn:fn,
 			scope: scope,
 			params: params || []
@@ -58,19 +72,20 @@ Mt.Class('Mt.Observable', {
 	},
 	un: function(eventName, fn){
 		var me = this,
-			eventListeners = me.events[eventName];
+			$events = me.$events[eventName];
 		
-		if(!eventListeners){
+		if(!$events){
 			return false;
 		}
 		
 		var i = 0,
-			length = eventListeners.length;
-			
-		for(;i<length;i++){
-			var lis = eventListeners[i];
-			if(lis.fn === fn){
-				eventListeners.splice(i, 1);
+			iL = $events.length;
+		
+		for(;i<iL;i++){
+			var lis = $events[i];
+			if(lis.fn.$mtFnSeed === fn.$mtFnSeed){
+				lis.toRemove = true;
+				//$events.splice(i, 1);
 				return true;
 			}
 		}
@@ -86,32 +101,40 @@ Mt.Class('Mt.Observable', {
 		me.on(eventName, fnWrapper, scope);
 	},
 	unAll: function(){
-		this.events = {};
+		this.$events = {};
 	},
 	unAllByType: function(eventName){
-		this.events[eventName] = [];
+		this.$events[eventName] = [];
 	},
-	fireEvent: function(eventName){
+	fire: function(eventName){
 		var me = this,
-			eventListeners = me.events[eventName];
-		if(!eventListeners){
+			$events = me.$events[eventName];
+		
+		if(!$events){
 			return false;
 		}
 		
 		var i = 1,
-			length = arguments.length,		
+			iL = arguments.length,		
 			args = [me];
 			
-		for(;i<length;i++){
+		for(;i<iL;i++){
 			args.push(arguments[i]);
 		}
 		
 		var i = 0,
-			length = eventListeners.length;
+			iL = $events.length;
 		
-		for(;i<length;i++){
-			var lis = eventListeners[i],
+		for(;i<iL;i++){
+			var lis = $events[i],
 				_args = [];
+			
+			if( lis.toRemove === true ){
+				$events.splice(i, 1);
+				i--;
+				iL = $events.length;
+				continue;
+			}
 			
 			_args = _args.concat(args);
 			if( lis.params ){
@@ -124,34 +147,34 @@ Mt.Class('Mt.Observable', {
 	addEvent: function(eventName){
 		var me = this;
 		
-		me.events[eventName] = me.events[eventName] || [];
+		me.$events[eventName] = me.$events[eventName] || [];
 	},
 	addEvents: function(eventName){
 		var me = this;
 		if(arguments.length > 1){
 			var tempEventName = [],
 				i = 0,
-				length = arguments.length;
+				iL = arguments.length;
 				
-			for(;i<length;i++){
+			for(;i<iL;i++){
 				tempEventName[i] = arguments[i];
 			}
 			eventName = tempEventName;
 		}
 		if(Mt.typeOf(eventName) === 'string'){			
-			me.events[eventName] = me.events[eventName] || [];
+			me.$events[eventName] = me.$events[eventName] || [];
 		}
 		else if(Mt.typeOf(eventName) === 'array'){
 			var i = 0,
-				length = eventName.length;
+				iL = eventName.length;
 			
-			for(; i < length; i++){
-				me.events[eventName[i]] = me.events[eventName[i]] || [];
+			for(;i<iL; i++){
+				me.$events[eventName[i]] = me.$events[eventName[i]] || [];
 			}
 		}
 	},
 	has: function(eventName){
-		var lis = this.events[eventName];
+		var lis = this.$events[eventName];
 		if(!lis){
 			return false;
 		}
@@ -159,3 +182,5 @@ Mt.Class('Mt.Observable', {
 		return lis.length !== 0;
 	}
 });
+
+})();

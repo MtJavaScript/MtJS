@@ -1,5 +1,5 @@
 Mt.Class('Mt.Panel', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};
@@ -28,7 +28,7 @@ Mt.Class('Mt.Panel', {
 			cls = me.cls;
 		
 		if( me.shadow ){
-			cls += ' mt-shadow';
+			cls += ' mt-panel-shadow';
 		}
 		
 		el.className = cls;

@@ -1,5 +1,5 @@
 Mt.Class('Mt.Field', {
-	extend: Mt.Observable,
+	extend: Mt.Widget,
 	type: 'field',
 	constructor: function(config){
 		var me = this,
@@ -7,11 +7,13 @@ Mt.Class('Mt.Field', {
 		
 		Mt.apply(me, config);
 		
-		me.Super('constructor', arguments);
-		me.init();
+		me.Super('const', arguments);
 	},
 	init: function(){
 		var me = this;
+		
+		me.addEvents();
+		me.Super('init', arguments);
 		
 		me.render();
 	},
@@ -24,6 +26,8 @@ Mt.Class('Mt.Field', {
 			renderTo = me.renderTo || document.body,
 			el = document.createElement('div'),
 			width = 0;
+		
+		me.fire('beforerender');
 		
 		el.className = me.cls;
 		//el.style.width = width + 'px';
@@ -39,5 +43,8 @@ Mt.Class('Mt.Field', {
 		].join('');
 		
 		me.el = renderTo.appendChild(el);
+		
+		me.fire('afterrender');
+		me.fire('render');
 	}
 });

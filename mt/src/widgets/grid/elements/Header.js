@@ -1,5 +1,5 @@
 Mt.Class('Mt.grid.Header', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};

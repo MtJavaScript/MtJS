@@ -1,4 +1,6 @@
-Mt.Class('Mt.TraitWidget', {
+Mt.TraitClass = function(){};
+
+Mt.TraitClass.prototype = {
 	initId: function(){
 		var me = this,
 			prefix = me.prefix || Mt.prefix;
@@ -7,8 +9,9 @@ Mt.Class('Mt.TraitWidget', {
 		
 		Mt.addWidget(me.id, me);
 	},
-	initPlugins: function(widget){
+	initPlugins: function(){
 		var me = this,
+			widget = me,
 			plugin,
 			objectPlugin,
 			pluginConfig;
@@ -17,6 +20,10 @@ Mt.Class('Mt.TraitWidget', {
 			me.$plugins = me.plugins;
 			//me.$plugins = me.$plugins.concat( me.plugins );
 			delete me.plugins;
+		}
+		
+		if(me.$plugins === undefined){
+			return;
 		}
 		
 		var i = 0,
@@ -41,4 +48,4 @@ Mt.Class('Mt.TraitWidget', {
 			}
 		}
 	}
-});
+};

@@ -1,11 +1,21 @@
-<script src="../build/mt-min.js"></script>
-<script src="../src/Model.js"></script>
-<script src="../src/Store.js"></script>
-<!--<script src="../src/Grid.js"></script>-->
+<script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
+
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
+
+<!-- Debug -->
+<script src="../build/load-all-js-files.js"></script>
+<!-- Release -->
+<!--<script src="../build/mt.js"></script>-->
+<!-- Release min -->
+<!--<script src="../build/mt-min.js"></script>-->
 
 <script>
 Mt.Class('User', {
-	extend: 'Mt.Model'
+	extend: 'Mt.Model',
+	fields: ['name', 'surname', 'email', 'position', 'company', 'age', 'salary']
 });
 
 var s = new Mt.Store({

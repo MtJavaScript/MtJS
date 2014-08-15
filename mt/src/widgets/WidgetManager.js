@@ -2,6 +2,7 @@ Mt.Class('Mt.WidgetManager', {
 	singleton: true,
 	constructor: function(){
 		var me = this;
+		
 		me.wtypes = new Mt.Data();
 		me.widgets = new Mt.Data();
 	},

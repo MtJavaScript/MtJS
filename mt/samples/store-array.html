@@ -1,0 +1,43 @@
+<script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
+
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
+
+<!-- Debug -->
+<script src="../build/load-all-js-files.js"></script>
+<!-- Release -->
+<!--<script src="../build/mt.js"></script>-->
+<!-- Release min -->
+<!--<script src="../build/mt-min.js"></script>-->
+
+<script>
+Mt.Class('Mt.User', {
+	extend: 'Mt.Model',
+	fields: ['name', 'surname', 'email', 'position', 'company', 'age', 'salary']
+});
+
+var s = new Mt.Store({
+	model: 'Mt.User',
+	data: [
+		['Ed', 'Smith', 'Ed.Smith@gmail.com', 'UNIX/C++ Developer', 'Electrical Systems', 53, 60000],
+		['Sam', 'Wood', 'Sam.Wood@gmail.com', 'UNIX/C++ Developer', 'Bridges', 49, 59000],
+		['Brian', 'Walker', 'Brian.Walker@gmail.com', 'Technical Analyst', 'Energy and Oil', 23, 70000],
+		['Alex', 'Russell', 'Alex.Russell@gmail.com', 'Ruby Developer', 'Bridges', 41, 77000],
+		['Carlos', 'Simpson', 'Carlos.Simpson@gmail.com', 'Application Support Engineer', 'Bridges', 55, 78000],
+		['Sam', 'Hamilton', 'Sam.Hamilton@gmail.com', 'C/C++ Market Data Developer', 'Electrical Systems', 36, 90000],
+		['Brian', 'Walker', 'Brian.Walker@gmail.com', 'Unit Testing Developer', 'IT Consultant', 34, 59000],
+		['Lorenzo', 'Miller', 'Lorenzo.Miller@gmail.com', 'Frontend Developer', 'Electrical Systems', 20, 82000],
+		['Sam', 'Phillips', 'Sam.Phillips@gmail.com', 'Frontend Developer', 'IT Consultant', 21, 95000],
+		['Peter', 'Hamilton', 'Peter.Hamilton@gmail.com', 'Ruby Developer', 'Bridges', 28, 74000],
+		['Arthur', 'West', 'Arthur.West@gmail.com', 'Engineer', 'Bridges', 27, 25000],
+		['Alex', 'Walker', 'Alex.Walker@gmail.com', 'Analytic', 'Energy and Oil', 29, 106000],
+		['Sam', 'Grant', 'Sam.Grant@gmail.com', 'Scala Developer', 'IT Consultant', 47, 71000],
+		['Brian', 'Walker', 'Brian.Walker@gmail.com', 'Scala Developer', 'IT Consultant', 43, 120000],
+		['Ryan', 'Edwards', 'Ryan.Edwards@gmail.com', 'Ruby Developer', 'Electrical Systems', 35, 23000],
+		['Alexander', 'Wood', 'Alexander.Wood@gmail.com', 'CSS3/HTML5 Developer', 'Bridges', 46, 69000],
+		['James', 'Hamilton', 'James.Hamilton@gmail.com', 'PHP/HTML Developer', 'Energy and Oil', 51, 88000]
+	]
+});
+</script>

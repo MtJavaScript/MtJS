@@ -3,21 +3,27 @@ MtJS
 
 Mt JS - RIA javascript library  
 Version - **0.0.2**  
-Debug version - 9 Kb  
-Min version - 5 Kb  
-Min and gzipped version - 2 Kb
+Debug version - 29 Kb  
+Min version - 18 Kb  
+Min and gzipped version - 5 Kb
 
 #Include
 
-##Debug version
+##Debug
 ``` html
-<script src="build/mt.js"></script>
+<link href="../build/mt.css" rel="stylesheet">
+<script src="../build/load-all-js-files.js"></script>
 ```
-##Min version
+##Release
 ``` html
-<script src="build/mt-min.js"></script>
+<link href="../build/mt.css" rel="stylesheet">
+<!--<script src="../build/mt.js"></script>-->
 ```
-
+##Release min
+``` html
+<link href="../build/mt-min.css" rel="stylesheet">
+<!--<script src="../build/mt-min.js"></script>-->
+```
 
 Class
 ------------------

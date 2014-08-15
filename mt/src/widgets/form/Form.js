@@ -1,23 +1,19 @@
 Mt.Class('Mt.Form', {
-	extend: Mt.Observable,
-	constructor: function(config){
-		var me = this,
-			config = config || {};
+	extend: Mt.Widget,
+	type: 'form',
+	constructor: function(){
+		var me = this;
 		
-		Mt.apply(me, config);
-		
-		me.Super('constructor', arguments);
-		me.init();
+		me.Super('const', arguments);
 	},
 	init: function(){
 		var me = this;
 		
+		me.addEvents();
 		me.render();
-		me.renderItems();
 	},
-	cls: 'mt-form mt-clear-padding-marging',
+	cls: 'mt mt-form',
 	value: '',
-	width: 300,
 	width: 200,
 	emptyText: '',
 	render: function(){
@@ -25,6 +21,8 @@ Mt.Class('Mt.Form', {
 			renderTo = me.renderTo || document.body,
 			el = document.createElement('div'),
 			cls = me.cls;
+			
+		me.fire('beforerender');
 		
 		el.className = me.cls;
 		el.style.width = me.width + 'px';
@@ -37,19 +35,9 @@ Mt.Class('Mt.Form', {
 		].join('');
 		
 		me.el = Mt.get(renderTo.appendChild(el));
-	},
-	renderItems: function(){
-		var me = this,
-			renderTo = me.el.getByClass('mt-form-body'),
-			i = 0,
-			iL = me.items.length;
+		me.renderItems(me.el.getByClass('mt-form-body'));
 		
-		for(;i<iL;i++){
-			var item = me.items[i],
-				w = Mt.getClassByType(item.type);
-			
-			item.renderTo = renderTo;
-			me.items[i] = new w(item);
-		}
+		me.fire('afterrender');
+		me.fire('render');
 	}
 });

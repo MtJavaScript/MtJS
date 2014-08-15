@@ -194,11 +194,11 @@ Mt.apply(Mt, {
 	idSeed: 0,
 	id: function(el, prefix){
 		if(!el){
-			return (prefix || Mt.prefix) + (++ZG.idSeed);
+			return (prefix || Mt.prefix) + (++Mt.idSeed);
 		}
 		el = el.dom || {};
 		if(!el.id){
-			el.id = (prefix || Mt.prefix) + (++ZG.idSeed);
+			el.id = (prefix || Mt.prefix) + (++Mt.idSeed);
 		}
 		return el.id;
 	}
@@ -490,6 +490,7 @@ Mt.Class('Mt.WidgetManager', {
 	singleton: true,
 	constructor: function(){
 		var me = this;
+		
 		me.wtypes = new Mt.Data();
 		me.widgets = new Mt.Data();
 	},
@@ -524,20 +525,29 @@ Mt.getWidget = function(id){
 	return Mt.WidgetManager.getWidget(id);
 };
 //"use strict";
-Mt.Class('Mt.Observable', {
+(function(){
+var seedFn = 0,
+	fns = {};
+
+Mt.Class(['Mt.Event', 'Mt.Observable'], {
+	traits: {
+		classes: [
+			Mt.TraitClass
+		]
+	},
 	constructor: function(config){
 		var me = this,
 			config = config || {};
 	
 		Mt.applyConfig(me, config);
 		
-		me.events = {};
-		if(me.listeners){
-			var listeners = me.listeners,
+		me.$events = {};
+		if(me.listeners || me.events){
+			var listeners = me.listeners || me.events,
 				i = 0,
-				length = listeners.length;
+				iL = listeners.length;
 			
-			for(;i<length;i++){
+			for(;i<iL;i++){
 				var lis = listeners[i],
 					eventName = null,
 					handler = null,
@@ -571,11 +581,16 @@ Mt.Class('Mt.Observable', {
 		}
 	},
 	on: function(eventName, fn, scope, params){
-		if( this.events[eventName] === undefined ){
+		if( this.$events[eventName] === undefined ){
 			console.log(arguments);
 			throw new Error('Event name is not set: ' + eventName);
 		}
-		this.events[eventName].push({
+		
+		fn.$mtFnSeed = seedFn;
+		fns[seedFn] = fn;
+		seedFn++;
+		
+		this.$events[eventName].push({
 			fn:fn,
 			scope: scope,
 			params: params || []
@@ -583,19 +598,20 @@ Mt.Class('Mt.Observable', {
 	},
 	un: function(eventName, fn){
 		var me = this,
-			eventListeners = me.events[eventName];
+			$events = me.$events[eventName];
 		
-		if(!eventListeners){
+		if(!$events){
 			return false;
 		}
 		
 		var i = 0,
-			length = eventListeners.length;
-			
-		for(;i<length;i++){
-			var lis = eventListeners[i];
-			if(lis.fn === fn){
-				eventListeners.splice(i, 1);
+			iL = $events.length;
+		
+		for(;i<iL;i++){
+			var lis = $events[i];
+			if(lis.fn.$mtFnSeed === fn.$mtFnSeed){
+				lis.toRemove = true;
+				//$events.splice(i, 1);
 				return true;
 			}
 		}
@@ -611,32 +627,40 @@ Mt.Class('Mt.Observable', {
 		me.on(eventName, fnWrapper, scope);
 	},
 	unAll: function(){
-		this.events = {};
+		this.$events = {};
 	},
 	unAllByType: function(eventName){
-		this.events[eventName] = [];
+		this.$events[eventName] = [];
 	},
-	fireEvent: function(eventName){
+	fire: function(eventName){
 		var me = this,
-			eventListeners = me.events[eventName];
-		if(!eventListeners){
+			$events = me.$events[eventName];
+		
+		if(!$events){
 			return false;
 		}
 		
 		var i = 1,
-			length = arguments.length,		
+			iL = arguments.length,		
 			args = [me];
 			
-		for(;i<length;i++){
+		for(;i<iL;i++){
 			args.push(arguments[i]);
 		}
 		
 		var i = 0,
-			length = eventListeners.length;
+			iL = $events.length;
 		
-		for(;i<length;i++){
-			var lis = eventListeners[i],
+		for(;i<iL;i++){
+			var lis = $events[i],
 				_args = [];
+			
+			if( lis.toRemove === true ){
+				$events.splice(i, 1);
+				i--;
+				iL = $events.length;
+				continue;
+			}
 			
 			_args = _args.concat(args);
 			if( lis.params ){
@@ -649,34 +673,34 @@ Mt.Class('Mt.Observable', {
 	addEvent: function(eventName){
 		var me = this;
 		
-		me.events[eventName] = me.events[eventName] || [];
+		me.$events[eventName] = me.$events[eventName] || [];
 	},
 	addEvents: function(eventName){
 		var me = this;
 		if(arguments.length > 1){
 			var tempEventName = [],
 				i = 0,
-				length = arguments.length;
+				iL = arguments.length;
 				
-			for(;i<length;i++){
+			for(;i<iL;i++){
 				tempEventName[i] = arguments[i];
 			}
 			eventName = tempEventName;
 		}
 		if(Mt.typeOf(eventName) === 'string'){			
-			me.events[eventName] = me.events[eventName] || [];
+			me.$events[eventName] = me.$events[eventName] || [];
 		}
 		else if(Mt.typeOf(eventName) === 'array'){
 			var i = 0,
-				length = eventName.length;
+				iL = eventName.length;
 			
-			for(; i < length; i++){
-				me.events[eventName[i]] = me.events[eventName[i]] || [];
+			for(;i<iL; i++){
+				me.$events[eventName[i]] = me.$events[eventName[i]] || [];
 			}
 		}
 	},
 	has: function(eventName){
-		var lis = this.events[eventName];
+		var lis = this.$events[eventName];
 		if(!lis){
 			return false;
 		}
@@ -684,50 +708,8 @@ Mt.Class('Mt.Observable', {
 		return lis.length !== 0;
 	}
 });
-Mt.Class('Mt.TraitWidget', {
-	initId: function(){
-		var me = this,
-			prefix = me.prefix || Mt.prefix;
-		
-		me.id = me.id || Mt.id(null, prefix);
-		
-		Mt.addWidget(me.id, me);
-	},
-	initPlugins: function(widget){
-		var me = this,
-			plugin,
-			objectPlugin,
-			pluginConfig;
-		
-		if(me.plugins !== undefined){
-			me.$plugins = me.plugins;
-			//me.$plugins = me.$plugins.concat( me.plugins );
-			delete me.plugins;
-		}
-		
-		var i = 0,
-			plugins = me.$plugins,
-			iL = plugins.length,
-			inWidgetName;
-		
-		//console.log(plugins);
-		
-		for(;i<iL;i++){
-			pluginConfig = plugins[i];
-			pluginConfig.widget = widget;
-			
-			var type = pluginConfig.type || pluginConfig.ptype;
-			plugin = Mt.getPluginByType( type );
-			//console.log(pluginConfig);
-			objectPlugin = new plugin(pluginConfig);
-			inWidgetName = pluginConfig.inWidgetName || objectPlugin.inWidgetName;
-			
-			if(inWidgetName !== undefined){
-				widget[ inWidgetName ] = objectPlugin;
-			}
-		}
-	}
-});
+
+})();
 Mt.$ = $;
 
 /*
@@ -782,52 +764,167 @@ Mt.Class('Mt.Model', {
 	constructor: function(data){
 		var me = this;
 		
-		me.data = data;
-    }
+		if( Mt.isArray(data) ){
+			var row = {},
+				fields = me.fields,
+				j = 0,
+				jL = fields.length;
+			
+			for(;j<jL;j++){
+				var p = fields[j];
+				row[p] = data[j];
+			}
+			
+			me.data = row;
+		}
+		else{
+			if( me.fields === undefined ){
+				var fields = [];
+				for(var p in data){
+					fields.push(p)
+				}
+				me.fields = fields;
+			}
+			
+			var row = {},
+				fields = me.fields,
+				j = 0,
+				jL = fields.length;
+			
+			for(;j<jL;j++){
+				var p = fields[j];
+				row[p] = data[p];
+			}
+			
+			me.data = row;
+		}
+    },
+	get: function(key){
+		var me = this;
+		
+		return me.data[key];
+	},
+	set: function(key, value){
+		var me = this;
+		
+		me.data[key] = value;
+	}
 });
 Mt.Class('Mt.Store', {
-	extend: 'Mt.Observable',
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};
 		
+		Mt.applyConfig(me, config);
 		me.data = [];
+		me.setModel();
 		if(config.data){
 			me.setData(config.data);
 			delete config.data;
 		}
 		
-		Mt.apply(me, config);
-		
-		me.Super('constructor', arguments);
+		me.Super('const', arguments);
+		me.init();
     },
+	init: function(){
+		var me = this;
+		
+		me.initId();
+		me.initPlugins();
+	},
+	setModel: function(){
+		var me = this,
+			model = me.model;
+		
+		if(!model === undefined){
+			model = Mt.Model;
+		}
+		else{
+			model = Mt.ClassManager.get(me.model);
+		}
+		
+		me.model = model;
+		me.fields = model.prototype.fields;
+		if( me.fields === undefined){
+			throw new Error('needed to set fields in Model of Store');
+		}
+	},
 	setData: function(data){
 		var me = this,
 			i = 0,
-			iL = data.length;
+			iL = data.length,
+			model = me.model;
 		
-		for(;i<iL;i++){
-			me.data[i] = new Mt.Model(data[i]);
+		if( Mt.isObject(data[0]) ){
+			for(;i<iL;i++){
+				me.data[i] = new model(data[i]);
+			}
+		}
+		else{
+			for(;i<iL;i++){
+				me.data[i] = new model(data[i]);
+			}
 		}
 	}
 });
-Mt.Class('Mt.Button', {
-	extend: Mt.Observable,
+Mt.Class('Mt.Widget', {
+	extend: Mt.Event,
 	constructor: function(config){
-		var me = this,
-			config = config || {};
+		var me = this;
 		
-		Mt.apply(me, config);
+		Mt.applyConfig(me, config);
 		
-		me.Super('constructor', arguments);
+		me.Super('const', arguments);
+		
 		me.init();
 	},
 	init: function(){
 		var me = this;
 		
-		me.render();
+		me.initId();
+		me.addEvents('beforerender', 'afterrender', 'render', 'show', 'hide', 'destroy');
+		me.initPlugins();
+	},
+	renderItems: function(renderTo){
+		var me = this,
+			i = 0,
+			iL = me.items.length;
+		
+		for(;i<iL;i++){
+			var item = me.items[i],
+				w = Mt.getClassByType(item.type);
+			
+			item.renderTo = renderTo;
+			me.items[i] = new w(item);
+		}
+	}
+});
+Mt.Class('Mt.Button', {
+	extend: Mt.Widget,
+	constructor: function(){
+		var me = this;
+		
+		me.Super('const', arguments);
+	},
+	init: function(){
+		var me = this;
+		
 		me.addEvents('click', 'mousedown', 'mouseup', 'mouseover', 'mouseout');
-		me.setHandlers();
+		me.Super('init', arguments);
+		
+		me.render();
+		me.setOns();
+	},
+	setOns: function(){
+		var me = this,
+			el = me.el;
+		
+		el.on('click', me.onClick, me);
+		el.on('mousedown', me.onMouseDown, me);
+		el.on('mouseup', me.onMouseUp, me);
+		el.on('mouseover', me.onMouseOver, me);
+		el.on('mouseout', me.onMouseOut, me);
 	},
 	cls: 'mt mt-button',
 	text: '',
@@ -839,6 +936,8 @@ Mt.Class('Mt.Button', {
 			el = document.createElement('div'),
 			width = 0;
 		
+		me.fire('beforerender');
+		
 		if( me.width ){
 			width = me.width;
 		}
@@ -846,6 +945,8 @@ Mt.Class('Mt.Button', {
 			width = me.paddingTextWidth * 2;
 			width += me.text.length * 7;
 		}
+		
+		
 		
 		el.className = me.cls;
 		el.style.width = width + 'px';
@@ -858,50 +959,43 @@ Mt.Class('Mt.Button', {
 		].join('');
 		
 		me.el = Mt.get( renderTo.appendChild(el) );
-	},
-	setHandlers: function(){
-		var me = this,
-			el = me.el;
 		
-		el.on('click', me.onClick, me);
-		el.on('mousedown', me.onMouseDown, me);
-		el.on('mouseup', me.onMouseUp, me);
-		el.on('mouseover', me.onMouseOver, me);
-		el.on('mouseout', me.onMouseOut, me);
+		me.fire('afterrender');
+		me.fire('render');
 	},
 	onClick: function(){
 		var me = this;
 		
-		me.fireEvent('click');
+		me.fire('click');
 		//console.log('onClick');
 	},
 	onMouseDown: function(){
 		var me = this;
 		
-		me.fireEvent('mousedown');
+		me.fire('mousedown');
 		//console.log('onMouseDown');
 	},
 	onMouseUp: function(){
 		var me = this;
 		
-		me.fireEvent('mouseup');
+		me.fire('mouseup');
 		//console.log('onMouseUp');
 	},
 	onMouseOver: function(){
 		var me = this;
 		
-		me.fireEvent('mouseover');
+		me.fire('mouseover');
 		//console.log('onMouseOver');
 	},
 	onMouseOut: function(){
 		var me = this;
 		
-		me.fireEvent('mouseout');
+		me.fire('mouseout');
 		//console.log('onMouseOut');
 	}
 });
 Mt.Class('Mt.Field', {
-	extend: Mt.Observable,
+	extend: Mt.Widget,
 	type: 'field',
 	constructor: function(config){
 		var me = this,
@@ -909,11 +1003,13 @@ Mt.Class('Mt.Field', {
 		
 		Mt.apply(me, config);
 		
-		me.Super('constructor', arguments);
-		me.init();
+		me.Super('const', arguments);
 	},
 	init: function(){
 		var me = this;
+		
+		me.addEvents();
+		me.Super('init', arguments);
 		
 		me.render();
 	},
@@ -926,6 +1022,8 @@ Mt.Class('Mt.Field', {
 			renderTo = me.renderTo || document.body,
 			el = document.createElement('div'),
 			width = 0;
+		
+		me.fire('beforerender');
 		
 		el.className = me.cls;
 		//el.style.width = width + 'px';
@@ -941,10 +1039,13 @@ Mt.Class('Mt.Field', {
 		].join('');
 		
 		me.el = renderTo.appendChild(el);
+		
+		me.fire('afterrender');
+		me.fire('render');
 	}
 });
 Mt.Class('Mt.Panel', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};
@@ -973,7 +1074,7 @@ Mt.Class('Mt.Panel', {
 			cls = me.cls;
 		
 		if( me.shadow ){
-			cls += ' mt-shadow';
+			cls += ' mt-panel-shadow';
 		}
 		
 		el.className = cls;
@@ -995,19 +1096,18 @@ Mt.Class('Mt.Panel', {
 	}
 });
 Mt.Class('Mt.TextArea', {
-	extend: Mt.Observable,
+	extend: Mt.Widget,
 	type: 'textarea',
-	constructor: function(config){
-		var me = this,
-			config = config || {};
+	constructor: function(){
+		var me = this;
 		
-		Mt.apply(me, config);
-		
-		me.Super('constructor', arguments);
-		me.init();
+		me.Super('const', arguments);
 	},
 	init: function(){
 		var me = this;
+		
+		me.addEvents();
+		me.Super('init', arguments);
 		
 		me.render();
 	},
@@ -1022,6 +1122,7 @@ Mt.Class('Mt.TextArea', {
 			el = document.createElement('div'),
 			width = 0;
 		
+		me.fire('beforerender');
 		el.className = me.cls;
 		//el.style.width = width + 'px';
 		//el.style.height = me.height + 'px';
@@ -1036,10 +1137,56 @@ Mt.Class('Mt.TextArea', {
 		].join('');
 		
 		me.el = renderTo.appendChild(el);
+		
+		me.fire('afterrender');
+		me.fire('render');
+	}
+});
+Mt.Class('Mt.Form', {
+	extend: Mt.Widget,
+	type: 'form',
+	constructor: function(){
+		var me = this;
+		
+		me.Super('const', arguments);
+	},
+	init: function(){
+		var me = this;
+		
+		me.addEvents();
+		me.render();
+	},
+	cls: 'mt mt-form',
+	value: '',
+	width: 200,
+	emptyText: '',
+	render: function(){
+		var me = this,
+			renderTo = me.renderTo || document.body,
+			el = document.createElement('div'),
+			cls = me.cls;
+			
+		me.fire('beforerender');
+		
+		el.className = me.cls;
+		el.style.width = me.width + 'px';
+		el.style.height = me.height + 'px';
+		
+		el.innerHTML = [
+			'<div class="mt-form-body">',
+				
+			'</div>'
+		].join('');
+		
+		me.el = Mt.get(renderTo.appendChild(el));
+		me.renderItems(me.el.getByClass('mt-form-body'));
+		
+		me.fire('afterrender');
+		me.fire('render');
 	}
 });
 Mt.Class('Mt.Grid', {
-	extend: 'Mt.Observable',
+	extend: Mt.Event,
 	width: 200,
 	height: 200,
 	cls: 'mt mt-grid',
@@ -1169,7 +1316,7 @@ Mt.Class('Mt.Grid', {
 	}
 });
 Mt.Class('Mt.grid.Body', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};
@@ -1316,7 +1463,7 @@ Mt.Class('Mt.grid.Body', {
 	}
 });
 Mt.Class('Mt.grid.Header', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(config){
 		var me = this,
 			config = config || {};

@@ -1,9 +1,12 @@
 <script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
 
-<link href="../build/mt-min.css" rel="stylesheet">
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
 
 <!-- Debug -->
-<script src="../build/load-all-js-files.js?"></script>
+<script src="../build/load-all-js-files.js"></script>
 <!-- Release -->
 <!--<script src="../build/mt.js"></script>-->
 <!-- Release min -->
@@ -14,8 +17,21 @@ window.onload = function(){
 console.log('in');
 new Mt.TextArea({
 	label: 'About',
-	emptyText: 'About'
-	//value: 'Ted'
+	emptyText: 'About',
+	value: 'Ted',
+	events: [{
+		beforerender: function(){
+			console.log('beforerender');
+		}
+	},{
+		afterrender: function(){
+			console.log('afterrender');
+		}
+	},{
+		render: function(){
+			console.log('render');
+		}
+	}]
 });
 
 };

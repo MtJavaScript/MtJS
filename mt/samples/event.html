@@ -1,26 +1,38 @@
-<script src="../build/mt-min.js"></script>
+<script src="../thirdparty/jquery/jquery-1.11.0.min.js"></script>
+
+<!-- Debug -->
+<link href="../build/mt.css" rel="stylesheet">
+<!-- Release min -->
+<!--<link href="../build/mt-min.css" rel="stylesheet">-->
+
+<!-- Debug -->
+<script src="../build/load-all-js-files.js"></script>
+<!-- Release -->
+<!--<script src="../build/mt.js"></script>-->
+<!-- Release min -->
+<!--<script src="../build/mt-min.js"></script>-->
 
 <script>
 Mt.Class('Car', {
-	extend: Mt.Observable,
+	extend: Mt.Event,
 	constructor: function(){
 		var me = this;
 		console.log('Car constructor');
 		
-		me.Super('constructor', arguments);
+		me.Super('const', arguments);
 		
-		me.addEvent('run');
+		me.addEvents('run');
 	},
 	name: 'Car',
 	run: function(km){
 		var me = this;
 		
-		me.fireEvent('run');
+		me.fire('run');
 	},
 	stop: function(){
 		var me = this;
 		
-		me.fireEvent('stop');
+		me.fire('stop');
 	},
 	getName: function(){
 		console.log(this.name);
@@ -32,7 +44,7 @@ Mt.Class('AverageCar', {
 	name: 'AverageCar',
 	constructor: function(){
 		console.log('AverageCar constructor');
-		this.Super('constructor', arguments);
+		this.Super('const', arguments);
 	},
 	run: function(){
 		console.log('cool');
@@ -45,7 +57,7 @@ Mt.Class('SuperCar', {
 	name: 'SuperCar',
 	constructor: function(){
 		console.log('SuperCar constructor');
-		this.Super('constructor', arguments);
+		this.Super('const', arguments);
 	},
 	run: function(){
 		console.log('runnnnnn');
@@ -77,4 +89,5 @@ setInterval(function(){
 		s.un('', runFn);
 	}
 }, 2000);
+
 </script>

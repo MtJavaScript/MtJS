@@ -1,20 +1,28 @@
 Mt.Class('Mt.Button', {
-	extend: Mt.Observable,
-	constructor: function(config){
-		var me = this,
-			config = config || {};
+	extend: Mt.Widget,
+	constructor: function(){
+		var me = this;
 		
-		Mt.apply(me, config);
-		
-		me.Super('constructor', arguments);
-		me.init();
+		me.Super('const', arguments);
 	},
 	init: function(){
 		var me = this;
 		
-		me.render();
 		me.addEvents('click', 'mousedown', 'mouseup', 'mouseover', 'mouseout');
-		me.setHandlers();
+		me.Super('init', arguments);
+		
+		me.render();
+		me.setOns();
+	},
+	setOns: function(){
+		var me = this,
+			el = me.el;
+		
+		el.on('click', me.onClick, me);
+		el.on('mousedown', me.onMouseDown, me);
+		el.on('mouseup', me.onMouseUp, me);
+		el.on('mouseover', me.onMouseOver, me);
+		el.on('mouseout', me.onMouseOut, me);
 	},
 	cls: 'mt mt-button',
 	text: '',
@@ -26,6 +34,8 @@ Mt.Class('Mt.Button', {
 			el = document.createElement('div'),
 			width = 0;
 		
+		me.fire('beforerender');
+		
 		if( me.width ){
 			width = me.width;
 		}
@@ -33,6 +43,8 @@ Mt.Class('Mt.Button', {
 			width = me.paddingTextWidth * 2;
 			width += me.text.length * 7;
 		}
+		
+		
 		
 		el.className = me.cls;
 		el.style.width = width + 'px';
@@ -45,45 +57,38 @@ Mt.Class('Mt.Button', {
 		].join('');
 		
 		me.el = Mt.get( renderTo.appendChild(el) );
-	},
-	setHandlers: function(){
-		var me = this,
-			el = me.el;
 		
-		el.on('click', me.onClick, me);
-		el.on('mousedown', me.onMouseDown, me);
-		el.on('mouseup', me.onMouseUp, me);
-		el.on('mouseover', me.onMouseOver, me);
-		el.on('mouseout', me.onMouseOut, me);
+		me.fire('afterrender');
+		me.fire('render');
 	},
 	onClick: function(){
 		var me = this;
 		
-		me.fireEvent('click');
+		me.fire('click');
 		//console.log('onClick');
 	},
 	onMouseDown: function(){
 		var me = this;
 		
-		me.fireEvent('mousedown');
+		me.fire('mousedown');
 		//console.log('onMouseDown');
 	},
 	onMouseUp: function(){
 		var me = this;
 		
-		me.fireEvent('mouseup');
+		me.fire('mouseup');
 		//console.log('onMouseUp');
 	},
 	onMouseOver: function(){
 		var me = this;
 		
-		me.fireEvent('mouseover');
+		me.fire('mouseover');
 		//console.log('onMouseOver');
 	},
 	onMouseOut: function(){
 		var me = this;
 		
-		me.fireEvent('mouseout');
+		me.fire('mouseout');
 		//console.log('onMouseOut');
 	}
 });

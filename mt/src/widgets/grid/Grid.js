@@ -1,5 +1,5 @@
 Mt.Class('Mt.Grid', {
-	extend: 'Mt.Observable',
+	extend: Mt.Event,
 	width: 200,
 	height: 200,
 	cls: 'mt mt-grid',

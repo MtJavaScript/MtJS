@@ -17,12 +17,12 @@ Min and gzipped version - 5 Kb
 ##Release
 ``` html
 <link href="../build/mt.css" rel="stylesheet">
-<!--<script src="../build/mt.js"></script>-->
+<script src="../build/mt.js"></script>
 ```
 ##Release min
 ``` html
 <link href="../build/mt-min.css" rel="stylesheet">
-<!--<script src="../build/mt-min.js"></script>-->
+<script src="../build/mt-min.js"></script>
 ```
 
 Class

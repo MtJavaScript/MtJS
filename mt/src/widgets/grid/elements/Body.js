@@ -108,7 +108,7 @@ Mt.Class('Mt.grid.Body', {
 			el = me.el,
 			store = w.store,
 			data = store.data,
-			columns = w.columns;
+			columns = w.columns,
 			tbodyEl = el.getElementsByTagName('tbody')[0],
 			i = 1,
 			iL = data.length + 1;

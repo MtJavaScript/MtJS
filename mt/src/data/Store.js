@@ -25,7 +25,7 @@ Mt.Class('Mt.Store', {
 		var me = this,
 			model = me.model;
 		
-		if(!model === undefined){
+		if(model === undefined){
 			model = Mt.Model;
 		}
 		else{
